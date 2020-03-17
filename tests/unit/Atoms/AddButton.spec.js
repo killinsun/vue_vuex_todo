@@ -1,6 +1,14 @@
-import { expect } from 'chai'
-import { shallowMount } from '@vue/test-utils'
+import Vuex from 'vuex'
+import chai, { expect, assert } from 'chai'
+import sinon from 'sinon'
+import sinonChai from 'sinon-chai'
+import { shallowMount, createLocalVue } from '@vue/test-utils'
 import Component from '@/components/Atoms/AddButton.vue'
+
+chai.use(sinonChai)
+
+const localVue = createLocalVue()
+localVue.use(Vuex)
 
 describe('AddButton.vue', () => {
   describe('Properties', () => {
@@ -34,6 +42,32 @@ describe('AddButton.vue', () => {
             propsData: { disabled: true }
           })
           expect(wrapper.attributes().disabled).to.equal('disabled')
+        })
+      })
+    })
+
+    describe('Events', () => {
+      describe('Click', () => {
+        let store
+
+        const mutations = {
+          addTask: sinon.stub(),
+          toggleTaskStatus: sinon.stub(),
+          changeTaskInputStatus: sinon.stub()
+        }
+
+        beforeEach(() => {
+          store = new Vuex.Store({
+            state: {},
+            mutations
+          })
+        })
+
+        it('should be triggered mutations', () => {
+          const wrapper = shallowMount(Component, { store, localVue })
+          wrapper.trigger('click')
+          assert(mutations.addTask.called)
+          assert(mutations.changeTaskInputStatus.called)
         })
       })
     })
