@@ -5,6 +5,7 @@
       <form v-on:submit.prevent="updateTask" v-if="todoItem.inputting">
         <input
           type="text"
+          ref="inputTodoTitle"
           v-model="todoItem.title"
           placeholder="Input a new todo title"
           class="classes"
@@ -31,6 +32,11 @@ export default {
       type: Object
     }
   },
+  mounted () {
+    if (this.todoItem.inputting) {
+      this.$nextTick(() => this.$refs.inputTodoTitle.focus())
+    }
+  },
   methods: {
     updateTask () {
       // 入力中ステータスをfalseにする
@@ -46,6 +52,7 @@ export default {
         id: this.todoItem.id,
         action: true
       })
+      this.$nextTick(() => this.$refs.inputTodoTitle.focus())
     },
 
     showInformation () {

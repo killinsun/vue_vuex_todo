@@ -99,7 +99,8 @@ export default {
   background-color: #ffffff;
   border: 1px solid black;
   width: 60vw;
-  height: 50vh;
+  min-height: 50vh;
+  height: auto;
   position: absolute;
   top: 50%;
   left: 50%;
@@ -108,10 +109,22 @@ export default {
   -ms-transform: translate(-50%, -50%);
 }
 .todo-info-wrapper {
-  padding: 1em 2em 2em 2em
+  padding: 1em 2em 2em 2em;
+  font-size: 2rem;
 }
 .todo-info-close{
   margin-bottom: 2em;
   text-align: right;
+}
+.todo-info-title > input {
+  font-size: 2rem;
+}
+.todo-info-description {
+  min-height: 15rem;
+  font-size: 1.5rem;
+}
+.todo-info-description > textarea {
+  min-height: 15rem;
+  font-size: 1.5rem;
 }
 </style>
