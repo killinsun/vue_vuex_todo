@@ -3,39 +3,51 @@ import chai, { expect, assert } from 'chai'
 import sinon from 'sinon'
 import sinonChai from 'sinon-chai'
 import { shallowMount, createLocalVue } from '@vue/test-utils'
-import Component from '@/components/Atoms/AddButton.vue'
+import Component from '@/components/Atoms/Checker.vue'
 
 chai.use(sinonChai)
 
 const localVue = createLocalVue()
 localVue.use(Vuex)
 
-describe('AddButton.vue', () => {
+describe('Checker.vue', () => {
   describe('Properties', () => {
     describe('Type', () => {
       describe('Default type', () => {
         it('should be a button when its type was not selected', () => {
-          const wrapper = shallowMount(Component)
-          expect(wrapper.is('button')).to.equal(true)
-          expect(wrapper.classes()).to.include('todo-add-button')
+          const wrapper = shallowMount(Component, { propsData: { id: 1 } })
+          expect(wrapper.is('input')).to.equal(true)
+          expect(wrapper.classes()).to.include('todo-check-button')
         })
       })
     })
 
-    describe('Disabled', () => {
-      describe('Default status', () => {
-        it('should be undefined when component is default', () => {
-          const wrapper = shallowMount(Component)
-          expect(wrapper.attributes().disabled).to.be.an('undefined')
+    describe('id', () => {
+      describe('defined', () => {
+        it('should have an id which is a number', () => {
+          const wrapper = shallowMount(Component, {
+            propsData: {
+              id: 1,
+              type: 'checkbox',
+              checked: false
+            }
+          })
+          expect(wrapper.vm.id).to.equal(1)
+          expect(wrapper.vm.id).to.be.a('number')
         })
       })
-      describe('true', () => {
-        it('should be true when component is disabled', () => {
-          const wrapper = shallowMount(Component, {
-            propsData: { disabled: true }
-          })
-          expect(wrapper.attributes().disabled).to.equal('disabled')
+    })
+
+    describe('checked', () => {
+      it('should have a boolean value', () => {
+        const wrapper = shallowMount(Component, {
+          propsData: {
+            id: 1,
+            type: 'checkbox',
+            checked: false
+          }
         })
+        expect(wrapper.vm.checked).to.be.a('boolean')
       })
     })
 
@@ -59,8 +71,7 @@ describe('AddButton.vue', () => {
         it('should be triggered mutations', () => {
           const wrapper = shallowMount(Component, { store, localVue })
           wrapper.trigger('click')
-          assert(mutations.addTask.called)
-          assert(mutations.changeTaskInputStatus.called)
+          assert(mutations.toggleTaskStatus.called)
         })
       })
     })

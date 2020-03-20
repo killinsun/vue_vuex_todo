@@ -7,18 +7,30 @@ export default new Vuex.Store({
   state: {
     tasks: [
       {
-        id: 1,
+        id: 0,
         title: 'hoge',
         done: false,
-        description: '',
-        priority: null,
-        labels: null,
-        inputing: false
+        description: 'No description',
+        priorityId: 0,
+        tagIds: null,
+        inputting: false
 
       }
     ],
-    currentFocusId: null,
-    nextTaskId: 2
+    priorities: [
+      'Low',
+      'Middle',
+      'High'
+    ],
+    tags: [
+      {
+        tagId: 0,
+        tagName: 'Buying'
+      }
+    ],
+    currentFocusId: 0,
+    nextTaskId: 1,
+    infoVisible: false
   },
   mutations: {
     // タスクの追加
@@ -28,9 +40,9 @@ export default new Vuex.Store({
         title,
         done: false,
         description: '',
-        priority: null,
-        labels: null,
-        inputing: true
+        priorityId: null,
+        tags: null,
+        inputting: true
       })
 
       state.nextTaskId++
@@ -52,14 +64,31 @@ export default new Vuex.Store({
     // タスク名の入力ステータスを変更する
     changeTaskInputStatus (state, { id, action }) {
       state.tasks.forEach(task => {
-        task.inputing = false
+        task.inputting = false
       })
       const filtered = state.tasks.filter(task => {
         return task.id === id
       })
 
       filtered.forEach(task => {
-        task.inputing = action
+        task.inputting = action
+      })
+    },
+
+    // タスク情報の表示非表示を変更する
+    toggleTaskInfo (state, { id }) {
+      state.currentFocusId = id
+      state.infoVisible = !state.infoVisible
+    },
+
+    // タスクの優先度を更新する
+    updateTaskPriority (state, { id, priorityId }) {
+      const filtered = state.tasks.filter(task => {
+        return task.id === id
+      })
+
+      filtered.forEach(task => {
+        task.priorityId = priorityId
       })
     }
   },

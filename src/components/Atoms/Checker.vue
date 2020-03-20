@@ -9,7 +9,7 @@
 
 <script>
 export default {
-  name: 'checkButton',
+  name: 'Checker',
   props: {
     id: {
       type: Number,
@@ -26,8 +26,8 @@ export default {
   },
   computed: {
     classes () {
-      const cls = this.type === 'text' ? ('-' + this.type) : ''
-      return [`todo-button${cls}`]
+      const cls = 'todo-check-button'
+      return cls
     }
   },
   methods: {

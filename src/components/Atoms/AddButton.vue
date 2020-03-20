@@ -1,6 +1,5 @@
 <template>
   <button
-    type='button'
     :disabled='disabled'
     :class='classes'
     @click='handleClick'
@@ -24,8 +23,8 @@ export default {
   },
   computed: {
     classes () {
-      const cls = this.type === 'text' ? ('-' + this.type) : ''
-      return [`todo-button${cls}`]
+      const cls = 'todo-add-button'
+      return cls
     }
   },
   methods: {

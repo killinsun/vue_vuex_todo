@@ -1,35 +1,35 @@
 <template>
   <div class="todo-item">
-    <CheckButton :id="$attrs.todoItem.id" :checked="$attrs.todoItem.done" v-if="!$attrs.todoItem.inputing" />
+    <Checker :id="todoItem.id" :checked="todoItem.done" v-if="!todoItem.inputting" />
     <div class="todo-item-input-area">
-      <form v-on:submit.prevent="updateTask" v-if="$attrs.todoItem.inputing">
+      <form v-on:submit.prevent="updateTask" v-if="todoItem.inputting">
         <input
           type="text"
-          v-model="$attrs.todoItem.title"
+          v-model="todoItem.title"
           placeholder="Input a new todo title"
           class="classes"
         >
       </form>
-      <span v-if="!$attrs.todoItem.inputing" @click="focusTask"> {{ id }} {{ $attrs.todoItem.title }}</span>
-      <ShowInfoButton  v-if="!$attrs.todoItem.inputing" />
+      <span v-if="!todoItem.inputting" @click="focusTask"> {{ todoItem.id }} {{ todoItem.title }}</span>
+      <InfoIcon  v-if="!todoItem.inputting" @click='showInformation()' />
     </div>
   </div>
 </template>
 
 <script>
-import CheckButton from '@/components/Atoms/CheckButton.vue'
-import ShowInfoButton from '@/components/Atoms/ShowInfoButton.vue'
+import Checker from '@/components/Atoms/Checker.vue'
+import InfoIcon from '@/components/Atoms/InfoIcon.vue'
 
 export default {
   name: 'TodoItem',
-  data: function () {
-    return {
-      id: this.$attrs.todoItem.id
-    }
-  },
   components: {
-    CheckButton,
-    ShowInfoButton
+    Checker,
+    InfoIcon
+  },
+  props: {
+    todoItem: {
+      type: Object
+    }
   },
   methods: {
     updateTask () {
@@ -43,9 +43,13 @@ export default {
     focusTask () {
       // 入力中ステータスをtrueにする
       this.$store.commit('changeTaskInputStatus', {
-        id: this.id,
+        id: this.todoItem.id,
         action: true
       })
+    },
+
+    showInformation () {
+      this.$store.commit('toggleTaskInfo', { id: this.todoItem.id })
     }
   }
 }
@@ -63,15 +67,15 @@ export default {
   text-align: left;
 }
 .todo-item > button {
-  font-size: 2vw;
+  font-size: 2rem;
 }
 .todo-item > div > span{
-  font-size: 2vw;
-  margin-right: 1vw;
+  font-size: 2rem;
+  margin-right: 1rem;
 }
 
 form > input {
-  font-size: 2vw;
+  font-size: 2rem;
   width: 100%;
 }
 </style>

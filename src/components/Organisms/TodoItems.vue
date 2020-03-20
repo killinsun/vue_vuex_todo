@@ -1,6 +1,8 @@
 <template>
-  <div class="todo-items">
-    <TodoItem v-for="todoItem in todoItems" :key="todoItem.id" :todoItem="todoItem" />
+  <div>
+    <div class="todo-items" v-for="todoItem in todoItems" :key="todoItem.id">
+      <TodoItem :todoItem="todoItem" />
+    </div>
     <AddButton />
   </div>
 </template>
