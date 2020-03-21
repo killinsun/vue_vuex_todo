@@ -12,9 +12,8 @@ export default new Vuex.Store({
         done: false,
         description: 'No description',
         priorityId: 0,
-        tagIds: null,
+        tagIds: [],
         inputting: false
-
       }
     ],
     priorities: [
@@ -25,7 +24,14 @@ export default new Vuex.Store({
     tags: [
       {
         tagId: 0,
-        tagName: 'Buying'
+        tagName: 'Buying',
+        checked: false
+      },
+
+      {
+        tagId: 1,
+        tagName: 'Reading',
+        checked: false
       }
     ],
     currentFocusId: 0,
@@ -41,7 +47,7 @@ export default new Vuex.Store({
         done: false,
         description: '',
         priorityId: null,
-        tags: null,
+        tagIds: [],
         inputting: true
       })
 
@@ -89,6 +95,17 @@ export default new Vuex.Store({
 
       filtered.forEach(task => {
         task.priorityId = priorityId
+      })
+    },
+
+    // チェックしたタグをタスクに紐付ける
+    updateTaskTags (state, { id, checkedTags }) {
+      const filtered = state.tasks.filter(task => {
+        return task.id === id
+      })
+
+      filtered.forEach(task => {
+        task.tagIds = checkedTags
       })
     }
   },
