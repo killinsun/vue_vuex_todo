@@ -4,13 +4,13 @@
       <div class="todo-info-close">
         <span @click="closeInfo()">X</span>
       </div>
-      <div class="todo-info-title" v-if="!todoItem.inputting" @click="focusTask">
+      <div class="todo-info-title" v-if="!todoItem.inputting" @click="focusTodoItem">
         <span>{{ todoItem.title }}</span>
       </div>
-      <div class="todo-info-description" v-if="!todoItem.inputting" @click="focusTask">
+      <div class="todo-info-description" v-if="!todoItem.inputting" @click="focusTodoItem">
         <p>{{ todoItem.description }}</p>
       </div>
-      <form v-on:submit.prevent="updateTask" v-if="todoItem.inputting">
+      <form v-on:submit.prevent="updateTodoItem" v-if="todoItem.inputting">
         <div class="todo-info-title">
           <input type="text" v-model="todoItem.title" placeholder="Input a new todo title" />
         </div>
@@ -41,7 +41,7 @@ export default {
   name: 'TodoInfo',
   computed: {
     todoItem () {
-      return this.$store.state.tasks[this.$store.state.currentFocusId]
+      return this.$store.state.todoItems[this.$store.state.currentFocusId]
     },
     priorities () {
       return this.$store.state.priorities
@@ -55,7 +55,7 @@ export default {
       },
       set (val) {
         const priorityId = this.priorities.indexOf(val)
-        this.$store.commit('updateTaskPriority', {
+        this.$store.commit('updateTodoItemPriority', {
           id: this.todoItem.id,
           priorityId: priorityId
         })
@@ -66,7 +66,7 @@ export default {
         return this.todoItem.tagIds
       },
       set (checkedTags) {
-        this.$store.commit('updateTaskTags', {
+        this.$store.commit('updateTodoItemTags', {
           id: this.todoItem.id,
           checkedTags: checkedTags
         })
@@ -75,22 +75,22 @@ export default {
   },
   methods: {
     closeInfo () {
-      this.updateTask() // 閉じると同時に入力中ステータスもfalseにする
+      this.updateTodoItem() // 閉じると同時に入力中ステータスもfalseにする
       // タグのチェック状態もコミットする
-      this.$store.commit('toggleTaskInfo', {
+      this.$store.commit('toggleTodoItemInfo', {
         id: this.todoItem.id
       })
     },
-    updateTask () {
+    updateTodoItem () {
       // 入力中ステータスをfalseにする
-      this.$store.commit('changeTaskInputStatus', {
+      this.$store.commit('changeTodoItemInputStatus', {
         id: this.id,
         action: false
       })
     },
-    focusTask () {
+    focusTodoItem () {
       // 入力中ステータスをtrueにする
-      this.$store.commit('changeTaskInputStatus', {
+      this.$store.commit('changeTodoItemInputStatus', {
         id: this.todoItem.id,
         action: true
       })
@@ -123,13 +123,18 @@ export default {
 }
 .todo-info-title > input {
   font-size: 2rem;
+  width: 70%;
 }
 .todo-info-description {
   min-height: 15rem;
   font-size: 1.5rem;
 }
+.todo-info-description > p {
+  background-color: #eeeeee;
+}
 .todo-info-description > textarea {
   min-height: 15rem;
   font-size: 1.5rem;
+  width: 70%;
 }
 </style>

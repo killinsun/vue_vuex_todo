@@ -5,7 +5,7 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    tasks: [
+    todoItems: [
       {
         id: 0,
         title: 'hoge',
@@ -35,14 +35,14 @@ export default new Vuex.Store({
       }
     ],
     currentFocusId: 0,
-    nextTaskId: 1,
+    nextTodoId: 1,
     infoVisible: false
   },
   mutations: {
     // タスクの追加
-    addTask (state, { title }) {
-      state.tasks.push({
-        id: state.nextTaskId,
+    addTodoItem (state, { title }) {
+      state.todoItems.push({
+        id: state.nextTodoId,
         title,
         done: false,
         description: '',
@@ -51,61 +51,61 @@ export default new Vuex.Store({
         inputting: true
       })
 
-      state.nextTaskId++
+      state.nextTodoId++
     },
 
     // タスクの完了状態を変更する
-    toggleTaskStatus (state, { id }) {
-      // task.idに一致するidを抽出する。
-      // task.id と入力されたidは１対１なので、返される配列は一つだけの想定
-      const filtered = state.tasks.filter(task => {
-        return task.id === id
+    toggleTodoItemStatus (state, { id }) {
+      // todoItem.idに一致するidを抽出する。
+      // todoItem.id と入力されたidは１対１なので、返される配列は一つだけの想定
+      const filtered = state.todoItems.filter(todoItem => {
+        return todoItem.id === id
       })
 
-      filtered.forEach(task => {
-        task.done = !task.done
+      filtered.forEach(todoItem => {
+        todoItem.done = !todoItem.done
       })
     },
 
     // タスク名の入力ステータスを変更する
-    changeTaskInputStatus (state, { id, action }) {
-      state.tasks.forEach(task => {
-        task.inputting = false
+    changeTodoItemInputStatus (state, { id, action }) {
+      state.todoItems.forEach(todoItem => {
+        todoItem.inputting = false
       })
-      const filtered = state.tasks.filter(task => {
-        return task.id === id
+      const filtered = state.todoItems.filter(todoItem => {
+        return todoItem.id === id
       })
 
-      filtered.forEach(task => {
-        task.inputting = action
+      filtered.forEach(todoItem => {
+        todoItem.inputting = action
       })
     },
 
     // タスク情報の表示非表示を変更する
-    toggleTaskInfo (state, { id }) {
+    toggleTodoItemInfo (state, { id }) {
       state.currentFocusId = id
       state.infoVisible = !state.infoVisible
     },
 
     // タスクの優先度を更新する
-    updateTaskPriority (state, { id, priorityId }) {
-      const filtered = state.tasks.filter(task => {
-        return task.id === id
+    updateTodoItemPriority (state, { id, priorityId }) {
+      const filtered = state.todoItems.filter(todoItem => {
+        return todoItem.id === id
       })
 
-      filtered.forEach(task => {
-        task.priorityId = priorityId
+      filtered.forEach(todoItem => {
+        todoItem.priorityId = priorityId
       })
     },
 
     // チェックしたタグをタスクに紐付ける
-    updateTaskTags (state, { id, checkedTags }) {
-      const filtered = state.tasks.filter(task => {
-        return task.id === id
+    updateTodoItemTags (state, { id, checkedTags }) {
+      const filtered = state.todoItems.filter(todoItem => {
+        return todoItem.id === id
       })
 
-      filtered.forEach(task => {
-        task.tagIds = checkedTags
+      filtered.forEach(todoItem => {
+        todoItem.tagIds = checkedTags
       })
     }
   },

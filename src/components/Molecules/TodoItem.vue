@@ -2,7 +2,7 @@
   <div class="todo-item">
     <Checker :id="todoItem.id" :checked="todoItem.done" v-if="!todoItem.inputting" />
     <div class="todo-item-input-area">
-      <form v-on:submit.prevent="updateTask" v-if="todoItem.inputting">
+      <form v-on:submit.prevent="updateTodoItem" v-if="todoItem.inputting">
         <input
           type="text"
           ref="inputTodoTitle"
@@ -11,7 +11,7 @@
           class="classes"
         >
       </form>
-      <span v-if="!todoItem.inputting" @click="focusTask"> {{ todoItem.id }} {{ todoItem.title }}</span>
+      <span v-if="!todoItem.inputting" @click="focusTodoItem"> {{ todoItem.id }} {{ todoItem.title }}</span>
       <InfoIcon  v-if="!todoItem.inputting" @click='showInformation()' />
     </div>
   </div>
@@ -38,17 +38,17 @@ export default {
     }
   },
   methods: {
-    updateTask () {
+    updateTodoItem () {
       // 入力中ステータスをfalseにする
-      this.$store.commit('changeTaskInputStatus', {
+      this.$store.commit('changeTodoItemInputStatus', {
         id: this.id,
         action: false
       })
     },
 
-    focusTask () {
+    focusTodoItem () {
       // 入力中ステータスをtrueにする
-      this.$store.commit('changeTaskInputStatus', {
+      this.$store.commit('changeTodoItemInputStatus', {
         id: this.todoItem.id,
         action: true
       })
@@ -56,7 +56,7 @@ export default {
     },
 
     showInformation () {
-      this.$store.commit('toggleTaskInfo', { id: this.todoItem.id })
+      this.$store.commit('toggleTodoItemInfo', { id: this.todoItem.id })
     }
   }
 }
