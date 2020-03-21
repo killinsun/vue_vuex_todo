@@ -44,9 +44,9 @@ describe('AddButton.vue', () => {
         let store
 
         const mutations = {
-          addTask: sinon.stub(),
-          toggleTaskStatus: sinon.stub(),
-          changeTaskInputStatus: sinon.stub()
+          addTodoItem: sinon.stub(),
+          toggleTodoItemStatus: sinon.stub(),
+          changeTodoItemInputStatus: sinon.stub()
         }
 
         beforeEach(() => {
@@ -59,8 +59,8 @@ describe('AddButton.vue', () => {
         it('should be triggered mutations', () => {
           const wrapper = shallowMount(Component, { store, localVue })
           wrapper.trigger('click')
-          assert(mutations.addTask.called)
-          assert(mutations.changeTaskInputStatus.called)
+          assert(mutations.addTodoItem.called)
+          assert(mutations.changeTodoItemInputStatus.called)
         })
       })
     })

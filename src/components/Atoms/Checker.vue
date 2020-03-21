@@ -32,7 +32,7 @@ export default {
   },
   methods: {
     handleClick (ev) {
-      this.$store.commit('toggleTaskStatus', {
+      this.$store.commit('toggleTodoItemStatus', {
         id: this.id
       })
     }

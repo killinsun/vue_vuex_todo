@@ -28,7 +28,7 @@ describe('TodoInfo.vue', () => {
         checked: false
       }
     ],
-    tasks: [
+    todoItems: [
       {
         id: 0,
         title: 'hoge',
@@ -43,10 +43,10 @@ describe('TodoInfo.vue', () => {
   }
 
   const mutations = {
-    toggleTaskInfo: sinon.stub(),
-    changeTaskInputStatus: sinon.stub(),
-    updateTaskTags: sinon.stub(),
-    updateTaskPriority: sinon.stub()
+    toggleTodoItemInfo: sinon.stub(),
+    changeTodoItemInputStatus: sinon.stub(),
+    updateTodoItemTags: sinon.stub(),
+    updateTodoItemPriority: sinon.stub()
   }
 
   describe('Properties', () => {
@@ -68,8 +68,8 @@ describe('TodoInfo.vue', () => {
           it('should be triggered mutations', () => {
             const wrapper = shallowMount(Component, { store, localVue })
             wrapper.find('.todo-info-close > span ').trigger('click')
-            expect(mutations.changeTaskInputStatus.called).to.equal(true)
-            expect(mutations.toggleTaskInfo.called).to.equal(true)
+            expect(mutations.changeTodoItemInputStatus.called).to.equal(true)
+            expect(mutations.toggleTodoItemInfo.called).to.equal(true)
           })
         })
       })
@@ -93,14 +93,14 @@ describe('TodoInfo.vue', () => {
       describe('when inputting', () => {
         let store
         beforeEach(() => {
-          state.tasks[0].inputting = true
+          state.todoItems[0].inputting = true
           store = new Vuex.Store({
             state: state,
             mutations: mutations
           })
         })
         afterEach(() => {
-          state.tasks[0].inputting = false
+          state.todoItems[0].inputting = false
         })
         it('should be not exist', () => {
           const wrapper = shallowMount(Component, { store, localVue })
@@ -127,14 +127,14 @@ describe('TodoInfo.vue', () => {
       describe('when inputting', () => {
         let store
         beforeEach(() => {
-          state.tasks[0].inputting = true
+          state.todoItems[0].inputting = true
           store = new Vuex.Store({
             state: state,
             mutations: mutations
           })
         })
         afterEach(() => {
-          state.tasks[0].inputting = false
+          state.todoItems[0].inputting = false
         })
         it('should be not exist', () => {
           const wrapper = shallowMount(Component, { store, localVue })
@@ -146,20 +146,20 @@ describe('TodoInfo.vue', () => {
     describe('form', () => {
       let store
       beforeEach(() => {
-        state.tasks[0].inputting = true
+        state.todoItems[0].inputting = true
         store = new Vuex.Store({
           state: state,
           mutations: mutations
         })
       })
       afterEach(() => {
-        state.tasks[0].inputting = false
+        state.todoItems[0].inputting = false
       })
 
       it('should be triggered when type the enter key', () => {
         const wrapper = shallowMount(Component, { store, localVue })
         wrapper.find('form').trigger('submit.prevent')
-        expect(mutations.changeTaskInputStatus.called).to.be.equal(true)
+        expect(mutations.changeTodoItemInputStatus.called).to.be.equal(true)
       })
 
       describe('input todo title', () => {
@@ -179,10 +179,10 @@ describe('TodoInfo.vue', () => {
     describe('todo-info-priority', () => {
       let store
       beforeEach(() => {
-        const updateTaskPriorityMock = function () {
-          state.tasks[0].priorityId = 2
+        const updateTodoItemPriorityMock = function () {
+          state.todoItems[0].priorityId = 2
         }
-        mutations.updateTaskPriority = updateTaskPriorityMock
+        mutations.updateTodoItemPriority = updateTodoItemPriorityMock
         store = new Vuex.Store({
           state: state,
           mutations: mutations

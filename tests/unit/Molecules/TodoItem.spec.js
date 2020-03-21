@@ -36,10 +36,10 @@ describe('TodoItem.vue', () => {
   describe('Events', () => {
     let store
     const mutations = {
-      addTask: sinon.stub(),
-      toggleTaskStatus: sinon.stub(),
-      changeTaskInputStatus: sinon.stub(),
-      toggleTaskInfo: sinon.stub()
+      addTodoItem: sinon.stub(),
+      toggleTodoItemStatus: sinon.stub(),
+      changeTodoItemInputStatus: sinon.stub(),
+      toggleTodoItemInfo: sinon.stub()
     }
 
     beforeEach(() => {
@@ -69,7 +69,7 @@ describe('TodoItem.vue', () => {
           })
 
           wrapper.find('span').trigger('click')
-          expect(mutations.changeTaskInputStatus.called).to.be.equal(true)
+          expect(mutations.changeTodoItemInputStatus.called).to.be.equal(true)
           expect(wrapper.vm.$props.todoItem.inputting).to.be.equal(false)
         })
       })
@@ -93,7 +93,7 @@ describe('TodoItem.vue', () => {
           })
 
           wrapper.find('form').trigger('submit.prevent')
-          expect(mutations.changeTaskInputStatus.called).to.be.equal(true)
+          expect(mutations.changeTodoItemInputStatus.called).to.be.equal(true)
           expect(wrapper.vm.$props.todoItem.inputting).to.be.equal(true)
         })
       })
@@ -120,7 +120,7 @@ describe('TodoItem.vue', () => {
           })
 
           wrapper.find(InfoIcon).trigger('click')
-          expect(mutations.toggleTaskInfo.called).to.be.equal(true)
+          expect(mutations.toggleTodoItemInfo.called).to.be.equal(true)
         })
       })
     })

@@ -56,9 +56,9 @@ describe('Checker.vue', () => {
         let store
 
         const mutations = {
-          addTask: sinon.stub(),
-          toggleTaskStatus: sinon.stub(),
-          changeTaskInputStatus: sinon.stub()
+          addTodoItem: sinon.stub(),
+          toggleTodoItemStatus: sinon.stub(),
+          changeTodoItemInputStatus: sinon.stub()
         }
 
         beforeEach(() => {
@@ -71,7 +71,7 @@ describe('Checker.vue', () => {
         it('should be triggered mutations', () => {
           const wrapper = shallowMount(Component, { store, localVue })
           wrapper.trigger('click')
-          assert(mutations.toggleTaskStatus.called)
+          assert(mutations.toggleTodoItemStatus.called)
         })
       })
     })

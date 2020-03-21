@@ -30,13 +30,13 @@ export default {
   methods: {
     handleClick (ev) {
       // 入力中のステータスを解除する。
-      this.$store.commit('changeTaskInputStatus', {
+      this.$store.commit('changeTodoItemInputStatus', {
         id: 1,
         action: false
       })
 
       // 新しいタスクを追加する
-      this.$store.commit('addTask', {
+      this.$store.commit('addTodoItem', {
         name: ''
       })
     }
