@@ -1,44 +1,36 @@
 <template>
-  <div class='todo-info'>
-    <div class='todo-info-wrapper'>
+  <div class="todo-info">
+    <div class="todo-info-wrapper">
       <div class="todo-info-close">
-        <span @click='closeInfo()'>X</span>
+        <span @click="closeInfo()">X</span>
       </div>
-      <div class='todo-info-title' v-if='!todoItem.inputting' @click='focusTask'>
-        <span> {{ todoItem.title }} </span>
+      <div class="todo-info-title" v-if="!todoItem.inputting" @click="focusTask">
+        <span>{{ todoItem.title }}</span>
       </div>
-      <div class='todo-info-description' v-if='!todoItem.inputting' @click='focusTask'>
-        <p>
-          {{ todoItem.description }}
-        </p>
+      <div class="todo-info-description" v-if="!todoItem.inputting" @click="focusTask">
+        <p>{{ todoItem.description }}</p>
       </div>
       <form v-on:submit.prevent="updateTask" v-if="todoItem.inputting">
-        <div class='todo-info-title'>
-          <input
-            type="text"
-            v-model="todoItem.title"
-            placeholder="Input a new todo title"
-          >
+        <div class="todo-info-title">
+          <input type="text" v-model="todoItem.title" placeholder="Input a new todo title" />
         </div>
-        <div class='todo-info-description'>
-          <textarea
-            name="description"
-            rows="10"
-            v-model="todoItem.description"
-          >
-          </textarea>
+        <div class="todo-info-description">
+          <textarea name="description" rows="10" v-model="todoItem.description"></textarea>
         </div>
       </form>
-      <div class='todo-info-priority'>
-        <span> Priority </span>
-        <select name='priorities' v-model='innerSelected'>
-          <option disabled value=''></option>
-          <option v-for='priority in priorities' :key='priority'> {{ priority }}</option>
+      <div class="todo-info-priority">
+        <span>Priority</span>
+        <select name="priorities" v-model="innerSelected">
+          <option disabled value></option>
+          <option v-for="priority in priorities" :key="priority">{{ priority }}</option>
         </select>
       </div>
-      <div class='todo-info-tag'>
-        <span> Tags </span>
-        <label><input type='checkbox' name='labels' value='test'>Test Label</label>
+      <div class="todo-info-tag">
+        <p>Tags</p>
+        <label v-for="tag in tags" :key="tag.tagId">
+          <input type="checkbox" name="tags" :value="tag.tagId" v-model="innerCheckedTags" />
+          {{ tag.tagName }}
+        </label>
       </div>
     </div>
   </div>
@@ -54,10 +46,12 @@ export default {
     priorities () {
       return this.$store.state.priorities
     },
+    tags () {
+      return this.$store.state.tags
+    },
     innerSelected: {
       get () {
-        const todoItem = this.$store.state.tasks[this.$store.state.currentFocusId]
-        return this.priorities[todoItem.priorityId]
+        return this.priorities[this.todoItem.priorityId]
       },
       set (val) {
         const priorityId = this.priorities.indexOf(val)
@@ -66,11 +60,23 @@ export default {
           priorityId: priorityId
         })
       }
+    },
+    innerCheckedTags: {
+      get () {
+        return this.todoItem.tagIds
+      },
+      set (checkedTags) {
+        this.$store.commit('updateTaskTags', {
+          id: this.todoItem.id,
+          checkedTags: checkedTags
+        })
+      }
     }
   },
   methods: {
     closeInfo () {
       this.updateTask() // 閉じると同時に入力中ステータスもfalseにする
+      // タグのチェック状態もコミットする
       this.$store.commit('toggleTaskInfo', {
         id: this.todoItem.id
       })
@@ -90,7 +96,6 @@ export default {
       })
     }
   }
-
 }
 </script>
 
@@ -112,7 +117,7 @@ export default {
   padding: 1em 2em 2em 2em;
   font-size: 2rem;
 }
-.todo-info-close{
+.todo-info-close {
   margin-bottom: 2em;
   text-align: right;
 }
