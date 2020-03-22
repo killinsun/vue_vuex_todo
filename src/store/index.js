@@ -39,6 +39,11 @@ export default new Vuex.Store({
     nextTodoId: 1,
     infoVisible: false
   },
+  getters: {
+    filteredAvailableTodoItems (state) {
+      return state.todoItems.filter(todoItem => todoItem.deleted === false)
+    }
+  },
   mutations: {
     // タスクの追加
     addTodoItem (state, { title }) {
@@ -111,6 +116,7 @@ export default new Vuex.Store({
       })
     },
 
+    // タスクに削除フラグを付ける
     deleteTodoItem (state, { id }) {
       const filtered = state.todoItems.filter(todoItem => {
         return todoItem.id === id
