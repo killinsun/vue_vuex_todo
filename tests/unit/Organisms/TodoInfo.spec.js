@@ -46,7 +46,8 @@ describe('TodoInfo.vue', () => {
     toggleTodoItemInfo: sinon.stub(),
     changeTodoItemInputStatus: sinon.stub(),
     updateTodoItemTags: sinon.stub(),
-    updateTodoItemPriority: sinon.stub()
+    updateTodoItemPriority: sinon.stub(),
+    deleteTodoItem: sinon.stub()
   }
 
   describe('Properties', () => {
@@ -215,6 +216,30 @@ describe('TodoInfo.vue', () => {
         const allLabelElements = wrapper.findAll('.todo-info-tag > label')
         expect(allLabelElements.at(0).text()).to.equal('Buying')
         expect(allLabelElements.at(1).text()).to.equal('Reading')
+      })
+    })
+    describe('todo-info-delete-item', () => {
+      let store
+      beforeEach(() => {
+        store = new Vuex.Store({
+          state: state,
+          mutations: mutations
+        })
+      })
+
+      it('should be a button', () => {
+        const wrapper = shallowMount(Component, { store, localVue })
+        expect(wrapper.find('.todo-info-delete-item > button').is('button')).to.equal(true)
+      })
+
+      describe('Click button', () => {
+        it('should be triggered mutations', () => {
+          const wrapper = shallowMount(Component, { store, localVue })
+          wrapper.find('.todo-info-delete-item > button').trigger('click')
+          expect(mutations.deleteTodoItem.called).to.equal(true)
+          expect(mutations.toggleTodoItemInfo.called).to.equal(true)
+          expect(mutations.changeTodoItemInputStatus.called).to.equal(true)
+        })
       })
     })
 

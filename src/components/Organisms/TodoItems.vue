@@ -24,7 +24,7 @@ export default {
   },
   computed: {
     todoItems () {
-      return this.$store.state.todoItems
+      return this.$store.getters.filteredAvailableTodoItems
     }
   }
 }

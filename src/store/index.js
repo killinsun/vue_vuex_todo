@@ -13,7 +13,8 @@ export default new Vuex.Store({
         description: 'No description',
         priorityId: 0,
         tagIds: [],
-        inputting: false
+        inputting: false,
+        deleted: false
       }
     ],
     priorities: [
@@ -38,6 +39,11 @@ export default new Vuex.Store({
     nextTodoId: 1,
     infoVisible: false
   },
+  getters: {
+    filteredAvailableTodoItems (state) {
+      return state.todoItems.filter(todoItem => todoItem.deleted === false)
+    }
+  },
   mutations: {
     // タスクの追加
     addTodoItem (state, { title }) {
@@ -48,7 +54,8 @@ export default new Vuex.Store({
         description: '',
         priorityId: null,
         tagIds: [],
-        inputting: true
+        inputting: true,
+        deleted: false
       })
 
       state.nextTodoId++
@@ -106,6 +113,17 @@ export default new Vuex.Store({
 
       filtered.forEach(todoItem => {
         todoItem.tagIds = checkedTags
+      })
+    },
+
+    // タスクに削除フラグを付ける
+    deleteTodoItem (state, { id }) {
+      const filtered = state.todoItems.filter(todoItem => {
+        return todoItem.id === id
+      })
+
+      filtered.forEach(todoItem => {
+        todoItem.deleted = true
       })
     }
   },
