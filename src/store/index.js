@@ -13,7 +13,8 @@ export default new Vuex.Store({
         description: 'No description',
         priorityId: 0,
         tagIds: [],
-        inputting: false
+        inputting: false,
+        deleted: false
       }
     ],
     priorities: [
@@ -106,6 +107,16 @@ export default new Vuex.Store({
 
       filtered.forEach(todoItem => {
         todoItem.tagIds = checkedTags
+      })
+    },
+
+    deleteTodoItem (state, { id }) {
+      const filtered = state.todoItems.filter(todoItem => {
+        return todoItem.id === id
+      })
+
+      filtered.forEach(todoItem => {
+        todoItem.deleted = true
       })
     }
   },
