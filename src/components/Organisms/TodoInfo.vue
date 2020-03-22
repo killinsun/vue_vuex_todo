@@ -32,6 +32,15 @@
           {{ tag.tagName }}
         </label>
       </div>
+      <div class="todo-info-delete-item">
+        <button
+          class='danger-element'
+          type='button'
+          @click='deleteTodoItem'
+        >
+        Delete
+        </button>
+      </div>
     </div>
   </div>
 </template>
@@ -94,6 +103,16 @@ export default {
         id: this.todoItem.id,
         action: true
       })
+    },
+    deleteTodoItem () {
+      this.closeInfo() // 削除と同時に入力中ステータスもfalseにする
+      // タスクに削除フラグをつける
+      this.$store.commit('deleteTodoItem', {
+        id: this.todoItem.id
+      })
+
+      // TODO: 確認ポップアップを表示させる
+      // TODO: 完了ポップアップを表示させる
     }
   }
 }

@@ -49,7 +49,8 @@ export default new Vuex.Store({
         description: '',
         priorityId: null,
         tagIds: [],
-        inputting: true
+        inputting: true,
+        deleted: false
       })
 
       state.nextTodoId++

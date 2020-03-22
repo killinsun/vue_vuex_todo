@@ -229,14 +229,16 @@ describe('TodoInfo.vue', () => {
 
       it('should be a button', () => {
         const wrapper = shallowMount(Component, { store, localVue })
-        expect(wrapper.is('button')).to.equal(true)
+        expect(wrapper.find('.todo-info-delete-item > button').is('button')).to.equal(true)
       })
 
       describe('Click button', () => {
-        it('should be triggered mutations',() => {
+        it('should be triggered mutations', () => {
           const wrapper = shallowMount(Component, { store, localVue })
-          wrapper.trigger('click')
+          wrapper.find('.todo-info-delete-item > button').trigger('click')
           expect(mutations.deleteTodoItem.called).to.equal(true)
+          expect(mutations.toggleTodoItemInfo.called).to.equal(true)
+          expect(mutations.changeTodoItemInputStatus.called).to.equal(true)
         })
       })
     })
